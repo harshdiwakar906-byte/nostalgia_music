@@ -216,7 +216,7 @@ export function useYouTubePlayer({
 
   const next = useCallback(() => {
     try {
-      playerRef.current?.nextVideo();
+      (playerRef.current as any)?.nextVideo?.();
     } catch {
       // Ignore.
     }
@@ -224,7 +224,7 @@ export function useYouTubePlayer({
 
   const previous = useCallback(() => {
     try {
-      playerRef.current?.previousVideo();
+      (playerRef.current as any)?.previousVideo?.();
     } catch {
       // Ignore.
     }
