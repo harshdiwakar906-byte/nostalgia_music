@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------- *
+ * Design tokens
+ *
+ * Palette pulled from the rickshaw-wala scene itself: the meter's red LED,
+ * the cab's marigold-yellow paint, monsoon-dusk indigo, and the canopy's
+ * faded canvas green. No stock cream/terracotta combo — every color here
+ * has a literal object in the reference photo it's named after.
+ * ------------------------------------------------------------------------ */
+@theme {
+  --color-night: #16171f;
+  --color-night-soft: #1f2130;
+  --color-cream: #f4ede2;
+  --color-marigold: #e0912f;
+  --color-rickshaw: #f4b731;
+  --color-meter: #e6432c;
+  --color-canopy: #33513f;
+
+  --font-display: var(--font-baloo), "Noto Sans Devanagari", ui-sans-serif, sans-serif;
+  --font-body: var(--font-plex), ui-sans-serif, system-ui, sans-serif;
+  --font-meter: var(--font-plex-mono), ui-monospace, monospace;
+
+  --animate-spin-slow: spin 8s linear infinite;
+}
+
+html,
+body {
+  background: var(--color-night);
+  color: var(--color-cream);
+  font-family: var(--font-body);
+}
+
+/* ---------------------------------------------------------------------- *
+ * Hero background — swapped by orientation, not by breakpoint, since a
+ * wide desktop window and a tall phone need genuinely different compositions.
+ * ------------------------------------------------------------------------ */
+.hero-bg {
+  background-image: url("/bg/scene-tall.jpg");
+}
+
+
+  .hero-bg {
+  background-image: url("/bg/scene-wide.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+/* ---------------------------------------------------------------------- *
+ * Grain overlay — inline feTurbulence, no network request, no bundled
+ * texture asset to keep in sync.
+ * ------------------------------------------------------------------------ */
+.grain-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.3;
+}
+
+/* ---------------------------------------------------------------------- *
+ * Glass recipe — layered gradient + saturation lift so it reads as glass,
+ * not a flat grey slab.
+ * ------------------------------------------------------------------------ */
+.glass {
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background-image: linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0.15),
+    rgb(255 255 255 / 0.055)
+  );
+  backdrop-filter: blur(48px) saturate(1.7);
+  -webkit-backdrop-filter: blur(48px) saturate(1.7);
+  box-shadow:
+    0 16px 48px -12px rgb(0 0 0 / 0.8),
+    inset 0 1px 0 rgb(255 255 255 / 0.2);
+}
+
+/* ---------------------------------------------------------------------- *
+ * Clock colon blink
+ * ------------------------------------------------------------------------ */
+@keyframes vinylspin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+.blink {
+  animation: blink 1s step-start infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blink {
+    animation: none;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Safe-area corners */
+.safe-tl {
+  top: max(1rem, env(safe-area-inset-top));
+  left: max(1rem, env(safe-area-inset-left));
+}
+.safe-tr {
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+}
+.safe-tc {
+  top: max(1rem, env(safe-area-inset-top));
+}
+.safe-b {
+  bottom: max(1rem, env(safe-area-inset-bottom));
+}
