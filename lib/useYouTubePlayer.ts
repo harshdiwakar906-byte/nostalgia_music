@@ -170,7 +170,7 @@ export function useYouTubePlayer({
             let videoId = "";
 
             try {
-              videoId = player.getVideoData()?.video_id ?? "";
+             videoId = (player as any).getVideoData?.()?.video_id;
             } catch {
               // Ignore.
             }
