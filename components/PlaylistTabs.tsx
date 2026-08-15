@@ -25,7 +25,6 @@ export default function Player() {
     seekTo,
   } = useYouTubePlayer({
     elementId: VIDEO_ELEMENT_ID,
-    playlistId: YOUTUBE_PLAYLIST_ID,
   });
 
   const [title, setTitle] = useState("Nostalgia Music");
